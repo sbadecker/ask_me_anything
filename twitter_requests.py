@@ -1,4 +1,5 @@
 import os
+from pprint import pprint
 
 import requests
 
@@ -12,7 +13,7 @@ class TwitterApi:
         self.timeline_params = load_json(timeline_params_path)
 
     def build_user_dataset(self, user_name, params=None, data_dir="data"):
-        user_id = self.get_user_id_by_name(user_name)
+        user_id = self.query_user_data_by_name(user_name, params={"user.fields": "id"})["id"]
         tweets = self.get_user_tweets(user_id, params)
         n_tweets = len(tweets)
         filepath = os.path.join(data_dir, f"{user_name}_{n_tweets}_tweets.json")
@@ -37,11 +38,22 @@ class TwitterApi:
                 print(f"{n_tweets} queried.")
         return tweets
 
-    def get_user_id_by_name(self, user_name, params={"user.fields": "id"}):
+    def query_user_data_by_name(self, user_name, params={"user.fields": "id,name"}):
         url = f"https://api.twitter.com/2/users/by/username/{user_name}"
         json_response = self.connect_to_endpoint(url, self.headers, params)
-        user_id = json_response["data"]["id"]
-        return user_id
+        user_data = json_response["data"]
+        return user_data
+
+    def batch_query_users_data_by_name(self, user_names, params={"user.fields": "id,name"}):
+        i = 0
+        user_data = []
+        while i < len(user_names):
+            user_string = ','.join(user_names[i:i + 100])
+            url = f"https://api.twitter.com/2/users/by?usernames={user_string}"
+            json_response = self.connect_to_endpoint(url, self.headers, params)
+            user_data.extend(json_response["data"])
+            i += 100
+        return user_data
 
     def connect_to_endpoint(self, url, headers, params):
         response = requests.request("GET", url, headers=headers, params=params)
@@ -62,7 +74,7 @@ class TwitterApi:
 def main():
     user_name = "stdecker"
     twitter_api = TwitterApi()
-    user_id = twitter_api.get_user_id_by_name(user_name)
+    user_id = twitter_api.query_user_data_by_name(user_name)["id"]
     user_tweets = twitter_api.get_user_tweets(user_id)
     pprint(user_tweets)
 
