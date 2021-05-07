@@ -3,7 +3,7 @@ from itertools import chain
 
 import pandas as pd
 
-from .utils import save_json
+from src.utils import save_json
 
 
 def normalize_tokens(text, token_mapping):
