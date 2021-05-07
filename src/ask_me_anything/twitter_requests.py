@@ -3,7 +3,7 @@ from pprint import pprint
 
 import requests
 
-from .utils import load_json, save_json
+from src.utils import load_json, save_json
 
 
 class TwitterApi:
