@@ -3,7 +3,6 @@ import logging
 from flask import jsonify
 from pydantic import ValidationError
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -28,4 +27,3 @@ def not_found_404(err):
 def pydantic_validation_error_400(err: ValidationError):
     logger.exception(f"Validation error: {err.json()}")
     return jsonify(err.errors()), 400
-

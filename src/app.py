@@ -5,7 +5,10 @@ from pydantic import ValidationError
 from werkzeug.exceptions import BadRequest, InternalServerError, NotFound, Unauthorized
 
 from src.error_handlers import (
-    bad_request_400, internal_server_error_500, not_found_404, pydantic_validation_error_400,
+    bad_request_400,
+    internal_server_error_500,
+    not_found_404,
+    pydantic_validation_error_400,
     unauthorized_401,
 )
 from src.logger import setup_logger
