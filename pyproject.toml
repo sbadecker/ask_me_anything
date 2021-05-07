@@ -11,14 +11,16 @@ requests = "~2.25.1"
 tensorflow = "~2.4.1"
 Flask = "~1.1.2"
 pydantic = "~1.8.1"
+google-cloud-secret-manager = "~2.0.0"
+farm-haystack = "~0.8.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.4"
-bandit = "^1.7.0"
-mypy = "^0.812"
-flake8 = "^3.9.1"
-black = "^21.5b0"
-isort = "^5.8.0"
+pytest = "~6.2.4"
+bandit = "~1.7.0"
+mypy = "~0.812"
+flake8 = "~3.9.1"
+black = "~21.5b0"
+isort = "~5.8.0"
 
 [tool.black]
 line-length=99
