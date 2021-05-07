@@ -6,7 +6,6 @@ from google.cloud import secretmanager
 from pydantic import BaseSettings
 from pydantic.env_settings import SettingsSourceCallable
 
-
 # A global client so we only establish one connection.
 # You should always use get_secrets_client() to access this.
 _client: Optional[secretmanager.SecretManagerServiceClient] = None
@@ -42,7 +41,6 @@ def _retrieve_secrets_from_google_secrets_manager(settings: BaseSettings) -> Dic
 
 
 class SecretSettings(BaseSettings, abc.ABC):
-
     class Config:
         project_id = "linear-element-311408"
 
@@ -54,4 +52,3 @@ class SecretSettings(BaseSettings, abc.ABC):
             file_secret_settings: SettingsSourceCallable,
         ):
             return env_settings, _retrieve_secrets_from_google_secrets_manager
-

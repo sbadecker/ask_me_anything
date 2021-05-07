@@ -48,7 +48,7 @@ class TwitterApi:
         i = 0
         user_data = []
         while i < len(user_names):
-            user_string = ",".join(user_names[i:i + 100])
+            user_string = ",".join(user_names[i : i + 100])
             url = f"https://api.twitter.com/2/users/by?usernames={user_string}"
             json_response = self.connect_to_endpoint(url, self.headers, params)
             user_data.extend(json_response["data"])
