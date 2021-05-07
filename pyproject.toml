@@ -9,8 +9,29 @@ python = "3.7.8"
 pandas = "~1.2.4"
 requests = "~2.25.1"
 tensorflow = "~2.4.1"
+Flask = "~1.1.2"
+pydantic = "~1.8.1"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+bandit = "^1.7.0"
+mypy = "^0.812"
+flake8 = "^3.9.1"
+black = "^21.5b0"
+isort = "^5.8.0"
+
+[tool.black]
+line-length=99
+target-version=['py37']
+
+[tool.isort]
+multi_line_output = 3
+line_length = 99
+use_parentheses = true
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+ensure_newline_before_comments = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
