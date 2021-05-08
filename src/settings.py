@@ -1,6 +1,6 @@
-from secrets import SecretSettings
-
 from pydantic import Field
+
+from secret_manager import SecretSettings
 
 
 class ProdSettings(SecretSettings):
