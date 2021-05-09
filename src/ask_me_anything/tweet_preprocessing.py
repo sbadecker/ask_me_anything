@@ -18,7 +18,9 @@ def normalize_mentions(twitter_df, twitter_api_instance, user_name_mapping_path)
     user_data = twitter_api_instance.batch_query_users_data_by_name(list(user_names))
     user_name_mapping = {user["username"]: user["name"] for user in user_data}
     save_json(user_name_mapping, user_name_mapping_path)
-    twitter_df["cleaned_text"] = twitter_df.apply(lambda x: substitute_mentions(x, user_name_mapping), axis=1)
+    twitter_df["cleaned_text"] = twitter_df.apply(
+        lambda x: substitute_mentions(x, user_name_mapping), axis=1
+    )
 
 
 def get_mentions(entities):
