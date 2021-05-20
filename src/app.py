@@ -55,6 +55,7 @@ def make_app():
 
 app = make_app()
 
+from src import routes
 
 if __name__ == "__main__":
     # for debug only!!

@@ -13,7 +13,7 @@ class AnaReader:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.batch_size = 8
 
-    def get_predictions(self, question: str, contexts: List[str]) -> float:
+    def get_predictions(self, question: str, contexts: List[str]) -> np.array:
         X = self.get_x(question, contexts)
         dataset = self.get_inference_dataset(X, self.tokenizer)
         y_pred_logits = self.model.predict(dataset.batch(self.batch_size))[0]
