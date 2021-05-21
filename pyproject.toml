@@ -20,10 +20,10 @@ pytest = "~6.2.4"
 bandit = "~1.7.0"
 mypy = "~0.812"
 flake8 = "~3.9.1"
-black = "~21.5b0"
 isort = "~5.8.0"
+autopep8 = "~1.5.7"
 
-[tool.black]
+[tool.autopep8]
 line-length=99
 target-version=['py37']
 

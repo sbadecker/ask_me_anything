@@ -23,8 +23,10 @@ def load_german_quad_dataset(json_path):
         record_path=["paragraphs", "qas"],
         meta=[["paragraphs", "context"], ["paragraphs", "document_id"]],
     )
-    qa_df["answers"] = qa_df.answers.map(lambda x: x if len(x) != 0 else dummy_dict)
-    answers_df = pd.concat(qa_df.answers.map(pd.json_normalize).values).reset_index(drop=True)
+    qa_df["answers"] = qa_df.answers.map(
+        lambda x: x if len(x) != 0 else dummy_dict)
+    answers_df = pd.concat(qa_df.answers.map(
+        pd.json_normalize).values).reset_index(drop=True)
 
     qa_df = pd.concat([qa_df, answers_df], axis=1)
 
@@ -62,7 +64,8 @@ def load_qa_dataset(json_path):
         },
         inplace=True,
     )
-    qa_df = qa_df[["title", "context", "question", "answer_text", "answer_start", "question_id"]]
+    qa_df = qa_df[["title", "context", "question",
+                   "answer_text", "answer_start", "question_id"]]
     return qa_df
 
 
@@ -72,12 +75,14 @@ def convert_drp_to_ana(json_path):
     negatives_df = pd.json_normalize(
         dpr_json, record_path=["hard_negative_ctxs"], meta=meta_columns
     )
-    positives_df = pd.json_normalize(dpr_json, record_path=["positive_ctxs"], meta=meta_columns)
+    positives_df = pd.json_normalize(
+        dpr_json, record_path=["positive_ctxs"], meta=meta_columns)
     negatives_df["contains_answer"] = False
     positives_df["contains_answer"] = True
 
     ana_df = pd.concat([negatives_df, positives_df]).reset_index(drop=True)
-    ana_df.rename(columns={"text": "context", "answers": "answer"}, inplace=True)
+    ana_df.rename(columns={"text": "context",
+                  "answers": "answer"}, inplace=True)
     return ana_df
 
 

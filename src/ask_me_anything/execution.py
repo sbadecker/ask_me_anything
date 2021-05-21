@@ -1,4 +1,5 @@
 from typing import List, Optional
+
 from haystack.retriever.sparse import ElasticsearchRetriever
 
 from src.ask_me_anything.ana_pipeline.ana_pipeline import AnaPipeline, AnaReader

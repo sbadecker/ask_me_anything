@@ -84,6 +84,18 @@ tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)"
 tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins"]
 
 [[package]]
+name = "autopep8"
+version = "1.5.7"
+description = "A tool that automatically formats Python code to conform to the PEP 8 style guide"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pycodestyle = ">=2.7.0"
+toml = "*"
+
+[[package]]
 name = "azure-core"
 version = "1.14.0"
 description = "Microsoft Azure Core Library for Python"
@@ -132,44 +144,21 @@ six = ">=1.10.0"
 stevedore = ">=1.20.0"
 
 [[package]]
-name = "black"
-version = "21.5b1"
-description = "The uncompromising code formatter."
-category = "dev"
-optional = false
-python-versions = ">=3.6.2"
-
-[package.dependencies]
-appdirs = "*"
-click = ">=7.1.2"
-mypy-extensions = ">=0.4.3"
-pathspec = ">=0.8.1,<1"
-regex = ">=2020.1.8"
-toml = ">=0.10.1"
-typed-ast = {version = ">=1.4.2", markers = "python_version < \"3.8\""}
-typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
-
-[package.extras]
-colorama = ["colorama (>=0.4.3)"]
-d = ["aiohttp (>=3.6.0)", "aiohttp-cors"]
-python2 = ["typed-ast (>=1.4.2)"]
-
-[[package]]
 name = "boto3"
-version = "1.17.76"
+version = "1.17.77"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 
 [package.dependencies]
-botocore = ">=1.20.76,<1.21.0"
+botocore = ">=1.20.77,<1.21.0"
 jmespath = ">=0.7.1,<1.0.0"
 s3transfer = ">=0.4.0,<0.5.0"
 
 [[package]]
 name = "botocore"
-version = "1.20.76"
+version = "1.20.77"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -589,14 +578,14 @@ typing-extensions = {version = ">=3.7.4.0", markers = "python_version < \"3.8\""
 
 [[package]]
 name = "google-api-core"
-version = "1.27.0"
+version = "1.28.0"
 description = "Google API client core library"
 category = "main"
 optional = false
 python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*"
 
 [package.dependencies]
-google-auth = ">=1.21.1,<2.0dev"
+google-auth = ">=1.25.0,<2.0dev"
 googleapis-common-protos = ">=1.6.0,<2.0dev"
 grpcio = {version = ">=1.29.0,<2.0dev", optional = true, markers = "extra == \"grpc\""}
 packaging = ">=14.3"
@@ -1148,7 +1137,7 @@ sqlserver = ["mlflow-dbstore"]
 
 [[package]]
 name = "more-itertools"
-version = "8.7.0"
+version = "8.8.0"
 description = "More routines for operating on iterables, beyond itertools"
 category = "main"
 optional = false
@@ -1323,14 +1312,6 @@ python-versions = ">=3.6"
 [package.extras]
 qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
 testing = ["docopt", "pytest (<6.0.0)"]
-
-[[package]]
-name = "pathspec"
-version = "0.8.1"
-description = "Utility library for gitignore style pattern matching of file paths."
-category = "dev"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "pbr"
@@ -2347,7 +2328,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.7.8"
-content-hash = "af368d1e381c8697b5e9f316127881df5cf210c536986f043d0ba3d36a1e3532"
+content-hash = "7ccfa1707e25bbfab771841d5a783ce037ab89583c643489b4472b3a93d24d9f"
 
 [metadata.files]
 absl-py = [
@@ -2381,6 +2362,10 @@ attrs = [
     {file = "attrs-21.2.0-py2.py3-none-any.whl", hash = "sha256:149e90d6d8ac20db7a955ad60cf0e6881a3f20d37096140088356da6c716b0b1"},
     {file = "attrs-21.2.0.tar.gz", hash = "sha256:ef6aaac3ca6cd92904cdd0d83f629a15f18053ec84e6432106f7a4d04ae4f5fb"},
 ]
+autopep8 = [
+    {file = "autopep8-1.5.7-py2.py3-none-any.whl", hash = "sha256:aa213493c30dcdac99537249ee65b24af0b2c29f2e83cd8b3f68760441ed0db9"},
+    {file = "autopep8-1.5.7.tar.gz", hash = "sha256:276ced7e9e3cb22e5d7c14748384a5cf5d9002257c0ed50c0e075b68011bb6d0"},
+]
 azure-core = [
     {file = "azure-core-1.14.0.zip", hash = "sha256:f32bb64aabe61f496255c16dd6c555a027da628109460bf27311cee0caf78f96"},
     {file = "azure_core-1.14.0-py2.py3-none-any.whl", hash = "sha256:2e3ade1b6d79229ad58d4ed8775a07a0c6323a00328ee202964200f299ba929a"},
@@ -2397,17 +2382,13 @@ bandit = [
     {file = "bandit-1.7.0-py3-none-any.whl", hash = "sha256:216be4d044209fa06cf2a3e51b319769a51be8318140659719aa7a115c35ed07"},
     {file = "bandit-1.7.0.tar.gz", hash = "sha256:8a4c7415254d75df8ff3c3b15cfe9042ecee628a1e40b44c15a98890fbfc2608"},
 ]
-black = [
-    {file = "black-21.5b1-py3-none-any.whl", hash = "sha256:8a60071a0043876a4ae96e6c69bd3a127dad2c1ca7c8083573eb82f92705d008"},
-    {file = "black-21.5b1.tar.gz", hash = "sha256:23695358dbcb3deafe7f0a3ad89feee5999a46be5fec21f4f1d108be0bcdb3b1"},
-]
 boto3 = [
-    {file = "boto3-1.17.76-py2.py3-none-any.whl", hash = "sha256:2421478269219131d58e1a7c49f535d32442a4de9f1b9022bffb3269cc6a46cb"},
-    {file = "boto3-1.17.76.tar.gz", hash = "sha256:b46ce7eaeb5a388b7a4a48999c3bb9e4276677bb0c1ee4b9f2bf7a1250d96e5e"},
+    {file = "boto3-1.17.77-py2.py3-none-any.whl", hash = "sha256:b434170484348b870e3624069ca577d38e52ace0229d0619d8368454bb66ad3b"},
+    {file = "boto3-1.17.77.tar.gz", hash = "sha256:02835bcad77a5fda1fc376a824323779301ddf88f04a0ac16044d980f350c4a3"},
 ]
 botocore = [
-    {file = "botocore-1.20.76-py2.py3-none-any.whl", hash = "sha256:277456d5eb993bc5ba13bb66e09875e9e8dab846b8722ed0370c7420858dcfbc"},
-    {file = "botocore-1.20.76.tar.gz", hash = "sha256:208d9d2cc7ec725892c0afcab3c76b42049a7f96309b4286f160b527cd64170f"},
+    {file = "botocore-1.20.77-py2.py3-none-any.whl", hash = "sha256:466ab5eac5e5735d573e83e84194585cac4e804d2b91b7bbe0351bcaff10df32"},
+    {file = "botocore-1.20.77.tar.gz", hash = "sha256:b2a71043378687dc891997669830e8b61eaea656981059dbd4898825659df639"},
 ]
 cachetools = [
     {file = "cachetools-4.2.2-py3-none-any.whl", hash = "sha256:2cc0b89715337ab6dbba85b5b50effe2b0c74e035d83ee8ed637cf52f12ae001"},
@@ -2666,8 +2647,8 @@ gitpython = [
     {file = "GitPython-3.1.17.tar.gz", hash = "sha256:ee24bdc93dce357630764db659edaf6b8d664d4ff5447ccfeedd2dc5c253f41e"},
 ]
 google-api-core = [
-    {file = "google-api-core-1.27.0.tar.gz", hash = "sha256:407e3e52435a44f6d59d4fef7b5e115bed7b20d77cbdab79e00232bfff7bf912"},
-    {file = "google_api_core-1.27.0-py2.py3-none-any.whl", hash = "sha256:edfca00d76081f359bed7b2efa2dc3a057309e55bf0a91628a0639730e31c357"},
+    {file = "google-api-core-1.28.0.tar.gz", hash = "sha256:02646803bd728e12dd1f45ee1dcc31c12614c9a1ac451b9a1ce26aa65df9b957"},
+    {file = "google_api_core-1.28.0-py2.py3-none-any.whl", hash = "sha256:a658a4e367511a444c7daf2c58855ff6fd7f7d138c154e5b17186c1f8154c8cb"},
 ]
 google-auth = [
     {file = "google-auth-1.30.0.tar.gz", hash = "sha256:9ad25fba07f46a628ad4d0ca09f38dcb262830df2ac95b217f9b0129c9e42206"},
@@ -3063,8 +3044,8 @@ mlflow = [
     {file = "mlflow-1.13.1.tar.gz", hash = "sha256:ec3a01e43402819203ec1d3b8c1d20875c5661f566ff6a749b45d2786e1afbba"},
 ]
 more-itertools = [
-    {file = "more-itertools-8.7.0.tar.gz", hash = "sha256:c5d6da9ca3ff65220c3bfd2a8db06d698f05d4d2b9be57e1deb2be5a45019713"},
-    {file = "more_itertools-8.7.0-py3-none-any.whl", hash = "sha256:5652a9ac72209ed7df8d9c15daf4e1aa0e3d2ccd3c87f8265a0673cd9cbc9ced"},
+    {file = "more-itertools-8.8.0.tar.gz", hash = "sha256:83f0308e05477c68f56ea3a888172c78ed5d5b3c282addb67508e7ba6c8f813a"},
+    {file = "more_itertools-8.8.0-py3-none-any.whl", hash = "sha256:2cf89ec599962f2ddc4d568a05defc40e0a587fbc10d5989713638864c36be4d"},
 ]
 msrest = [
     {file = "msrest-0.6.21-py2.py3-none-any.whl", hash = "sha256:c840511c845330e96886011a236440fafc2c9aff7b2df9c0a92041ee2dee3782"},
@@ -3179,10 +3160,6 @@ pandas = [
 parso = [
     {file = "parso-0.8.2-py2.py3-none-any.whl", hash = "sha256:a8c4922db71e4fdb90e0d0bc6e50f9b273d3397925e5e60a717e719201778d22"},
     {file = "parso-0.8.2.tar.gz", hash = "sha256:12b83492c6239ce32ff5eed6d3639d6a536170723c6f3f1506869f1ace413398"},
-]
-pathspec = [
-    {file = "pathspec-0.8.1-py2.py3-none-any.whl", hash = "sha256:aa0cb481c4041bf52ffa7b0d8fa6cd3e88a2ca4879c533c9153882ee2556790d"},
-    {file = "pathspec-0.8.1.tar.gz", hash = "sha256:86379d6b86d75816baba717e64b1a3a3469deb93bb76d613c9ce79edc5cb68fd"},
 ]
 pbr = [
     {file = "pbr-5.6.0-py2.py3-none-any.whl", hash = "sha256:c68c661ac5cc81058ac94247278eeda6d2e6aecb3e227b0387c30d277e7ef8d4"},

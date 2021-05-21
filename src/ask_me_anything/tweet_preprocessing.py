@@ -15,7 +15,8 @@ def normalize_tokens(text, token_mapping):
 def normalize_mentions(twitter_df, twitter_api_instance, user_name_mapping_path):
     twitter_df["mentions"] = twitter_df.entities.map(get_mentions)
     user_names = set(chain(*twitter_df["mentions"].values))
-    user_data = twitter_api_instance.batch_query_users_data_by_name(list(user_names))
+    user_data = twitter_api_instance.batch_query_users_data_by_name(
+        list(user_names))
     user_name_mapping = {user["username"]: user["name"] for user in user_data}
     save_json(user_name_mapping, user_name_mapping_path)
     twitter_df["cleaned_text"] = twitter_df.apply(

@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request as current_request
 from pydantic import ValidationError
 from werkzeug.exceptions import BadRequest, InternalServerError, NotFound, Unauthorized
 
+from src import routes
 from src.error_handlers import (
     bad_request_400,
     internal_server_error_500,
@@ -55,7 +56,6 @@ def make_app():
 
 app = make_app()
 
-from src import routes
 
 if __name__ == "__main__":
     # for debug only!!
