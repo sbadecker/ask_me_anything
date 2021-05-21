@@ -1,10 +1,10 @@
 from typing import List, Optional, Union
 
 from elasticsearch import Elasticsearch, RequestsHttpConnection
-from haystack.retriever.sparse import ElasticsearchRetriever
+from haystack.document_store.elasticsearch import ElasticsearchDocumentStore
 
 
-class ElasticsearchRetrieverFixed(ElasticsearchRetriever):
+class ElasticsearchDocumentStoreFixed(ElasticsearchDocumentStore):
     def _init_elastic_client(
         self,
         host: Union[str, List[str]],
@@ -13,11 +13,11 @@ class ElasticsearchRetrieverFixed(ElasticsearchRetriever):
         password: str,
         api_key_id: Optional[str],
         api_key: Optional[str],
-        aws4auth,
         scheme: str,
         ca_certs: Optional[str],
         verify_certs: bool,
         timeout: int,
+        aws4auth=None
     ) -> Elasticsearch:
         # Create list of host(s) + port(s) to allow direct client connections to multiple elasticsearch nodes
         if isinstance(host, list):
