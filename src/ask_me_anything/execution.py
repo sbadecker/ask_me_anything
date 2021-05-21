@@ -6,15 +6,10 @@ from src.ask_me_anything.ana_pipeline.ana_pipeline import AnaPipeline, AnaReader
 from src.ask_me_anything.haystack_wrappers.haystack_elasticsearch_fix import (
     ElasticsearchRetrieverFixed,
 )
-
-ELASTICSEARCH_HOST = ""
-ELASTICSEARCH_PORT = 1234
-ELASTICSEARCH_USERNAME = ""
-ELASTICSEARCH_PASSWORD = ""
-READER_MODEL_NAME = ""
+from src.settings import settings
 
 
-def get_answer(
+def run_answer_prediction(
     query: str,
     max_documents: Optional[int] = None,
     filters: Optional[List[str]] = None,
@@ -22,14 +17,14 @@ def get_answer(
     top_k: int = 250,
 ) -> List[dict]:
     document_store = ElasticsearchDocumentStore(
-        host=ELASTICSEARCH_HOST,
-        port=ELASTICSEARCH_PORT,
-        username=ELASTICSEARCH_USERNAME,
-        password=ELASTICSEARCH_PASSWORD,
+        host=settings.ELASTICSEARCH_HOST,
+        port=settings.ELASTICSEARCH_PORT,
+        username=settings.ELASTICSEARCH_USERNAME,
+        password=settings.ELASTICSEARCH_PASSWORD,
         scheme="https",
     )
     retriever = ElasticsearchRetrieverFixed(document_store=document_store)
-    reader = AnaReader(READER_MODEL_NAME)
+    reader = AnaReader(settings.READER_MODEL_NAME)
     ana_pipeline = AnaPipeline(retriever, reader)
 
     answers_df = ana_pipeline.get_answer_documents(
