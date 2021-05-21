@@ -130,3 +130,4 @@ dmypy.json
 
 .idea/
 .credentials/
+/src/gcloud_service_account_secret.json

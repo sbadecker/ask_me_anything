@@ -1,10 +1,10 @@
 from typing import List, Optional, Union
 
 from elasticsearch import Elasticsearch, RequestsHttpConnection
-from haystack.retriever.sparse import ElasticsearchRetriever
+from haystack.document_store.elasticsearch import ElasticsearchDocumentStore
 
 
-class ElasticsearchRetrieverFixed(ElasticsearchRetriever):
+class ElasticsearchDocumentStoreFixed(ElasticsearchDocumentStore):
     def _init_elastic_client(
         self,
         host: Union[str, List[str]],
@@ -13,17 +13,18 @@ class ElasticsearchRetrieverFixed(ElasticsearchRetriever):
         password: str,
         api_key_id: Optional[str],
         api_key: Optional[str],
-        aws4auth,
         scheme: str,
         ca_certs: Optional[str],
         verify_certs: bool,
         timeout: int,
+        aws4auth=None
     ) -> Elasticsearch:
         # Create list of host(s) + port(s) to allow direct client connections to multiple elasticsearch nodes
         if isinstance(host, list):
             if isinstance(port, list):
                 if not len(port) == len(host):
-                    raise ValueError("Length of list `host` must match length of list `port`")
+                    raise ValueError(
+                        "Length of list `host` must match length of list `port`")
                 hosts = [{"host": h, "port": p} for h, p in zip(host, port)]
             else:
                 hosts = [{"host": h, "port": port} for h in host]
@@ -31,7 +32,8 @@ class ElasticsearchRetrieverFixed(ElasticsearchRetriever):
             hosts = [{"host": host, "port": port}]
 
         if (api_key or api_key_id) and not (api_key and api_key_id):
-            raise ValueError("You must provide either both or none of `api_key_id` and `api_key`")
+            raise ValueError(
+                "You must provide either both or none of `api_key_id` and `api_key`")
 
         if api_key:
             # api key authentication

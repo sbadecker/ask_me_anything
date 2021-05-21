@@ -42,7 +42,8 @@ class AUCWithLogits(AUC):
             if self.label_weights is not None:
                 # label_weights should be of length equal to the number of labels.
                 shapes.append((self.label_weights, ("L",)))
-            deps = [check_ops.assert_shapes(shapes, message="Number of labels is not consistent.")]
+            deps = [check_ops.assert_shapes(
+                shapes, message="Number of labels is not consistent.")]
 
         # Only forward label_weights to update_confusion_matrix_variables when
         # multi_label is False. Otherwise the averaging of individual label AUCs is

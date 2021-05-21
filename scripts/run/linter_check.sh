@@ -24,8 +24,8 @@ echo
 echo "################################################################################"
 echo
 
-echo "black..."
-poetry run black --check --diff --config=pyproject.toml ./src ./tests
+echo "autopep8..."
+poetry run autopep8 --recursive --diff --global-config=pyproject.toml ./src ./tests
 echo
 echo "################################################################################"
 echo

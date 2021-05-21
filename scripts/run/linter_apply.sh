@@ -6,8 +6,8 @@ echo
 echo "################################################################################"
 echo
 
-echo "black..."
-poetry run black --config=pyproject.toml ./src ./tests
+echo "autopep8..."
+poetry run autopep8 --recursive --in-place --global-config=pyproject.toml ./src ./tests
 echo
 echo "################################################################################"
 echo

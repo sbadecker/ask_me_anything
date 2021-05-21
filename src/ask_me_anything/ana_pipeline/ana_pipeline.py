@@ -9,7 +9,8 @@ from transformers import AutoTokenizer, PreTrainedTokenizer, TFAutoModelForSeque
 
 class AnaReader:
     def __init__(self, model_name: str):
-        self.model = TFAutoModelForSequenceClassification.from_pretrained(model_name)
+        self.model = TFAutoModelForSequenceClassification.from_pretrained(
+            model_name)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.batch_size = 8
 
@@ -55,10 +56,12 @@ class AnaPipeline:
         threshold: float = 0.5,
         top_k: int = 250,
     ) -> pd.DataFrame:
-        documents = self.retriever.retrieve(query, filters=filters, index=self.index, top_k=top_k)
+        documents = self.retriever.retrieve(
+            query, filters=filters, index=self.index, top_k=top_k)
         document_df = pd.DataFrame([d.to_dict() for d in documents])
         document_df["question"] = query
-        document_df["score"] = list(self.reader.get_predictions(query, document_df.text.values))
+        document_df["score"] = list(
+            self.reader.get_predictions(query, document_df.text.values))
         found_documents_df = document_df[document_df.score > threshold].sort_values(
             "score", ascending=False
         )
