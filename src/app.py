@@ -3,8 +3,14 @@ import logging
 from flask import Flask, jsonify, request as current_request
 from pydantic import ValidationError
 from werkzeug.exceptions import BadRequest, InternalServerError, NotFound, Unauthorized
+from src.settings import settings
+from haystack.retriever.sparse import ElasticsearchRetriever
+from src.ask_me_anything.ana_pipeline.ana_pipeline import AnaPipeline, AnaReader
+from src.ask_me_anything.haystack_wrappers.haystack_elasticsearch_fix import (
+    ElasticsearchDocumentStoreFixed,
+)
 
-from src import routes
+
 from src.error_handlers import (
     bad_request_400,
     internal_server_error_500,
@@ -53,9 +59,25 @@ def make_app():
 
     return app
 
+def get_ana_pipeline(settings):
+    document_store = ElasticsearchDocumentStoreFixed(
+        host=settings.ELASTICSEARCH_HOST,
+        port=settings.ELASTICSEARCH_PORT,
+        username=settings.ELASTICSEARCH_USERNAME,
+        password=settings.ELASTICSEARCH_PASSWORD,
+        scheme="https",
+    )
+    retriever = ElasticsearchRetriever(document_store=document_store)
+    reader = AnaReader(settings.READER_MODEL_NAME)
+    ana_pipeline = AnaPipeline(retriever, reader)
+    return ana_pipeline
+
 
 app = make_app()
 
+ana_pipeline = get_ana_pipeline(settings)
+
+from src import routes
 
 if __name__ == "__main__":
     # for debug only!!

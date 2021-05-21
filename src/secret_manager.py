@@ -1,5 +1,6 @@
 import abc
 from os import environ as env
+import os
 from typing import Any, Dict, Optional
 
 from google.api_core.exceptions import NotFound as GoogleAPICoreExceptionNotFound
@@ -12,7 +13,8 @@ from pydantic.env_settings import SettingsSourceCallable
 _client: Optional[secretmanager.SecretManagerServiceClient] = None
 
 # Make sure the service account secrets are in the src directory
-env["GOOGLE_APPLICATION_CREDENTIALS"] = "gcloud_service_account_secret.json"
+env["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                     "gcloud_service_account_secret.json")
 
 
 def get_secrets_client():

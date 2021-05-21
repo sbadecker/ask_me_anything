@@ -12,6 +12,7 @@ tensorflow = "~2.4.1"
 Flask = "~1.1.2"
 pydantic = "~1.8.1"
 google-cloud-secret-manager = "~2.0.0"
+google-api-core = "~1.28.0"
 farm-haystack = "~0.8.0"
 ipykernel = "^5.5.5"
 

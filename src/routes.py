@@ -14,7 +14,9 @@ def index():
 @app.route("/get_answers", methods=["POST"])
 def get_answers():
     data = request.get_json()
-    answers = run_answer_prediction(query=data["text"])
+    answers = run_answer_prediction(query=data["text"], max_documents=data.get("max_documents"),
+                                    filters=data.get("filters", {}), threshold=data.get("threshold", 0.5),
+                                    top_k=data.get("top_k", 250))
     return {"answers": answers}
 
 
