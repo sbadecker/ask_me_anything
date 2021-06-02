@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 
 from google.api_core.exceptions import NotFound as GoogleAPICoreExceptionNotFound
 from google.cloud import secretmanager
+from google.auth.exceptions import DefaultCredentialsError
 from pydantic import BaseSettings
 from pydantic.env_settings import SettingsSourceCallable
 
@@ -20,7 +21,10 @@ env["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(os.path.dirname(os.path.abs
 def get_secrets_client():
     global _client
     if not _client:
-        _client = secretmanager.SecretManagerServiceClient()
+        try:
+            _client = secretmanager.SecretManagerServiceClient()
+        except DefaultCredentialsError:
+            pass
     return _client
 
 
@@ -35,13 +39,14 @@ def _retrieve_secrets_from_google_secrets_manager(settings: BaseSettings) -> Dic
         if field.field_info.extra.get("from_secrets", False):
             env_name = field.name
             client = get_secrets_client()
-            secret_path = client.secret_path(project_id, env_name)
-            secret_path += "/versions/latest"
-            try:
-                resp = client.access_secret_version(name=secret_path)
-                secrets[field.alias] = resp.payload.data.decode("utf8")
-            except GoogleAPICoreExceptionNotFound:
-                pass  # secret wasn't found, hopefully it's in the env
+            if client:
+                secret_path = client.secret_path(project_id, env_name)
+                secret_path += "/versions/latest"
+                try:
+                    resp = client.access_secret_version(name=secret_path)
+                    secrets[field.alias] = resp.payload.data.decode("utf8")
+                except GoogleAPICoreExceptionNotFound:
+                    pass  # secret wasn't found, hopefully it's in the env
 
     return secrets
 
