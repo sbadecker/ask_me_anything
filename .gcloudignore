@@ -1,0 +1,8 @@
+Dockerfile
+README.md
+
+.gcloudignore
+.git
+.gitignore
+
+#!include:.gitignore

@@ -128,6 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+mlruns/
 .idea/
 .credentials/
-/src/gcloud_service_account_secret.json
+src/gcloud_service_account_secret.json

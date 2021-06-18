@@ -1,14 +1,15 @@
 import logging
+from tempfile import NamedTemporaryFile
 
 from flask import Flask, jsonify, request as current_request
 from pydantic import ValidationError
-from werkzeug.exceptions import BadRequest, InternalServerError, NotFound, Unauthorized
+from src.secret_manager import SecretSettings
+from src.utils import get_sql_url, download_blob
 from src.settings import settings
-from haystack.retriever.sparse import ElasticsearchRetriever
 from src.ask_me_anything.ana_pipeline.ana_pipeline import AnaPipeline, AnaReader
-from src.ask_me_anything.haystack_wrappers.haystack_elasticsearch_fix import (
-    ElasticsearchDocumentStoreFixed,
-)
+from werkzeug.exceptions import BadRequest, InternalServerError, NotFound, Unauthorized
+from haystack.document_store.faiss import FAISSDocumentStore
+from haystack.retriever import DensePassageRetriever
 
 
 from src.error_handlers import (
@@ -59,15 +60,21 @@ def make_app():
 
     return app
 
-def get_ana_pipeline(settings):
-    document_store = ElasticsearchDocumentStoreFixed(
-        host=settings.ELASTICSEARCH_HOST,
-        port=settings.ELASTICSEARCH_PORT,
-        username=settings.ELASTICSEARCH_USERNAME,
-        password=settings.ELASTICSEARCH_PASSWORD,
-        scheme="https",
-    )
-    retriever = ElasticsearchRetriever(document_store=document_store)
+
+def get_ana_pipeline(settings: SecretSettings):
+    with NamedTemporaryFile() as f:
+        download_blob(settings.DOCUMENT_EMBEDDINGS_BUCKET_NAME, source_blob_name=settings.DOCUMENT_EMBEDDINGS_FILE_NAME,
+                      destination_file_name=f.name)
+        faiss_document_store = FAISSDocumentStore.load(faiss_file_path=f.name, sql_url=get_sql_url(), index="document")
+    retriever = DensePassageRetriever(document_store=faiss_document_store,
+                                      query_embedding_model=settings.DPR_QUERY_ENCODER_NAME,
+                                      passage_embedding_model=settings.DPR_PASSAGE_ENCODER_NAME,
+                                      max_seq_len_query=64,
+                                      max_seq_len_passage=256,
+                                      batch_size=16,
+                                      use_gpu=False,
+                                      embed_title=True,
+                                      use_fast_tokenizers=True)
     reader = AnaReader(settings.READER_MODEL_NAME)
     ana_pipeline = AnaPipeline(retriever, reader)
     return ana_pipeline

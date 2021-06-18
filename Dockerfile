@@ -1,6 +1,7 @@
 FROM python:3.7
 
 ENV PYTHONUNBUFFERED True
+COPY src/gcloud_service_account_secret.json src/gcloud_service_account_secret.json
 
 RUN pip install poetry
 
