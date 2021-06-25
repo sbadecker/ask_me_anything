@@ -1,4 +1,3 @@
-Dockerfile
 README.md
 
 .gcloudignore
@@ -6,3 +5,5 @@ README.md
 .gitignore
 
 #!include:.gitignore
+
+!src/gcloud_service_account_secret.json
