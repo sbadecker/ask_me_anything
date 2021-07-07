@@ -14,6 +14,8 @@ class ProdSettings(SecretSettings):
     DB_HOST: str = Field(..., from_secrets=True)
     DB_USER: str = Field(..., from_secrets=True)
     DB_PASSWORD: str = Field(..., from_secrets=True)
+    CLOUD_SQL_CONNECTION_NAME: str = Field(..., from_secrets=True)
+    USE_UNIX_SOCKET: bool = Field(..., from_secrets=False)
 
 
 settings = ProdSettings()

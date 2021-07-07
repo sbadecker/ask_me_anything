@@ -1,5 +1,7 @@
 import logging
+import os
 
+import sqlalchemy
 from google.cloud import storage
 from src.settings import settings
 
@@ -22,3 +24,20 @@ def get_sql_url(host: str = settings.DB_HOST, db_name: str = settings.DB_NAME, u
                 password: str = settings.DB_PASSWORD) -> str:
     sql_url = f"postgresql://{host}/{db_name}?user={user}&password={password}"
     return sql_url
+
+
+def get_unix_socket_sql_url(db_name: str = settings.DB_NAME, user: str = settings.DB_USER,
+                            password: str = settings.DB_PASSWORD,
+                            cloud_sql_connection_name: str = settings.CLOUD_SQL_CONNECTION_NAME) -> str:
+    db_socket_dir = os.environ.get("DB_SOCKET_DIR", "/cloudsql")
+    sql_url = sqlalchemy.engine.url.URL.create(
+        drivername="postgresql+pg8000",
+        username=user,
+        password=password,
+        database=db_name,
+        query={
+            "unix_sock": "{}/{}/.s.PGSQL.5432".format(
+                db_socket_dir,
+                cloud_sql_connection_name)
+        })
+    return str(sql_url)

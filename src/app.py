@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 from flask import Flask, jsonify, request as current_request
 from pydantic import ValidationError
 from src.secret_manager import SecretSettings
-from src.utils import get_sql_url, download_blob
+from src.utils import get_sql_url, download_blob, get_unix_socket_sql_url
 from src.settings import settings
 from src.ask_me_anything.ana_pipeline.ana_pipeline import AnaPipeline, AnaReader
 from werkzeug.exceptions import BadRequest, InternalServerError, NotFound, Unauthorized
@@ -62,10 +62,17 @@ def make_app():
 
 
 def get_ana_pipeline(settings: SecretSettings):
+    if settings.USE_UNIX_SOCKET:
+        logger.info("Unix socket used")
+        sql_url = get_unix_socket_sql_url()
+    else:
+        logger.info("Regular connection used")
+        sql_url = get_sql_url()
+
     with NamedTemporaryFile() as f:
         download_blob(settings.DOCUMENT_EMBEDDINGS_BUCKET_NAME, source_blob_name=settings.DOCUMENT_EMBEDDINGS_FILE_NAME,
                       destination_file_name=f.name)
-        faiss_document_store = FAISSDocumentStore.load(faiss_file_path=f.name, sql_url=get_sql_url(), index="document")
+        faiss_document_store = FAISSDocumentStore.load(faiss_file_path=f.name, sql_url=sql_url, index="document")
     retriever = DensePassageRetriever(document_store=faiss_document_store,
                                       query_embedding_model=settings.DPR_QUERY_ENCODER_NAME,
                                       passage_embedding_model=settings.DPR_PASSAGE_ENCODER_NAME,
